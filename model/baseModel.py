@@ -7,14 +7,14 @@ class BaseModel:
 
     def __init__(self, host: str, model_name: str = 'anonymous', version: int = 1):
         self.logger = logging.getLogger(model_name)
-        self.model_name = model_name
-        self.version = version
-        self.host = host
+        self.host: str = host
+        self.model_name: str = model_name
+        self.version: int = version
 
-    def preprocess(self, raw_data) -> dict:
+    def preprocess(self, raw_data: dict) -> dict:
         raise NotImplementedError
 
-    def after_prediction(self, prediction: dict) -> dict:
+    def after_prediction(self, predict_result: dict) -> dict:
         raise NotImplementedError
 
     def inference(self, raw_data: dict) -> dict:
@@ -25,7 +25,7 @@ class BaseModel:
         )
         self.logger.info('http_response = {}'.format(http_response))
         try:
-            json_response = http_response.json()
+            json_response: dict = http_response.json()
             return self.after_prediction(json_response)
         except json.decoder.JSONDecodeError:
             return {
