@@ -17,10 +17,10 @@ class BaseModel:
     def after_prediction(self, predict_result: dict) -> dict:
         raise NotImplementedError
 
-    def inference(self, raw_data: dict) -> dict:
+    def predict(self, raw_data: dict) -> dict:
         self.logger.info('start inference, raw_data = {}'.format(raw_data))
         http_response = requests.post(
-            '{}/v{}/models/{}'.format(self.host, self.version, self.model_name),
+            '{}/v{}/models/{}:predict'.format(self.host, self.version, self.model_name),
             json=self.preprocess(raw_data)
         )
         self.logger.info('http_response = {}'.format(http_response))

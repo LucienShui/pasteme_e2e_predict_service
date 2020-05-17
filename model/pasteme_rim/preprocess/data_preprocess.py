@@ -84,7 +84,7 @@ def balanced_sampling(raw_df: pd.DataFrame, down_sampling: bool = False) -> pd.D
     return pd.concat(result_df_list, axis=0).sample(frac=1.)
 
 
-def pad_sequences(sequences, maxlen=None, dtype='int32',
+def pad_sequences(sequences, max_len=None, dtype='int32',
                   padding='pre', truncating='pre', value=0.):
     """Pads sequences to the same length.
 
@@ -135,8 +135,8 @@ def pad_sequences(sequences, maxlen=None, dtype='int32',
             raise ValueError('`sequences` must be a list of iterables. '
                              'Found non-iterable: ' + str(x))
 
-    if maxlen is None:
-        maxlen = np.max(lengths)
+    if max_len is None:
+        max_len = np.max(lengths)
 
     # take the sample shape from the first non empty sequence
     # checking for consistency in the main loop below.
@@ -147,19 +147,19 @@ def pad_sequences(sequences, maxlen=None, dtype='int32',
             break
 
     is_dtype_str = np.issubdtype(dtype, np.str_) or np.issubdtype(dtype, np.unicode_)
-    if dtype != object and not is_dtype_str:
-        raise ValueError("`dtype` {} is not compatible with `value`'s type: {}\n"
-                         "You should set `dtype=object` for variable length strings."
-                         .format(dtype, type(value)))
+    # if dtype != object and not is_dtype_str:
+    #     raise ValueError("`dtype` {} is not compatible with `value`'s type: {}\n"
+    #                      "You should set `dtype=object` for variable length strings."
+    #                      .format(dtype, type(value)))
 
-    x = np.full((num_samples, maxlen) + sample_shape, value, dtype=dtype)
+    x = np.full((num_samples, max_len) + sample_shape, value, dtype=dtype)
     for idx, s in enumerate(sequences):
         if not len(s):
             continue  # empty list/array was found
         if truncating == 'pre':
-            trunc = s[-maxlen:]
+            trunc = s[-max_len:]
         elif truncating == 'post':
-            trunc = s[:maxlen]
+            trunc = s[:max_len]
         else:
             raise ValueError('Truncating type "%s" '
                              'not understood' % truncating)
