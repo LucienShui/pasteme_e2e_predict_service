@@ -11,7 +11,8 @@ class BidirectionalLSTM(BaseModel):
     def __init__(self, host: str, model_name: str = 'anonymous', version: int = 1, max_length: int = 128):
         super().__init__(host, model_name, version)
         word2idx_path = os.path.join(os.path.dirname(__file__), 'word2idx.json')
-        self.word2idx: typing.Dict[str, int] = json.load(open(word2idx_path))
+        with open(word2idx_path) as file:
+            self.word2idx: typing.Dict[str, int] = json.load(file)
         self.max_length = max_length
 
     def preprocess(self, raw_data: dict) -> dict:

@@ -6,7 +6,9 @@ import json
 class BaseModel:
 
     def __init__(self, host: str, model_name: str = 'anonymous', version: int = 1):
+        logging.basicConfig()
         self.logger = logging.getLogger(model_name)
+        self.logger.setLevel(logging.INFO)
         self.host: str = host
         self.model_name: str = model_name
         self.version: int = version
@@ -23,7 +25,7 @@ class BaseModel:
             '{}/v{}/models/{}:predict'.format(self.host, self.version, self.model_name),
             json=self.preprocess(raw_data)
         )
-        self.logger.info('http_response = {}'.format(http_response))
+        self.logger.info('http_response = {}'.format(http_response.content))
         try:
             json_response: dict = http_response.json()
             return self.after_prediction(json_response)

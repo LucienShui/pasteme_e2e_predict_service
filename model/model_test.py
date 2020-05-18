@@ -9,6 +9,7 @@ class MyModelTestCase(unittest.TestCase):
             model_name='PasteMeRIM',
             version=1, max_length=128)
         prediction = model.predict({'content': ['你好，世界！']})
+        print(prediction)
         self.assertEqual(True, True)
 
 
