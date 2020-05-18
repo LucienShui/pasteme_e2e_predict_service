@@ -5,6 +5,6 @@ from model.pasteme_rim import BidirectionalLSTM
 
 def load_model(config: dict) -> typing.Dict[str, BaseModel]:
     loaded_model = {
-        'PasteMeRIM': BidirectionalLSTM(config['pasteme_rim']['max_length'])
+        'PasteMeRIM': BidirectionalLSTM(config['PasteMeRIM']['max_length'])
     }
     return loaded_model

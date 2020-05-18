@@ -24,6 +24,9 @@ def load_config(config_path: str):
             }
 
 
+load_config('config.json')
+
+
 @app.route('/')
 def hello_world():
     return 'Hello World!'
@@ -52,5 +55,4 @@ def predict(version: int, model_name: str):
 
 
 if __name__ == '__main__':
-    load_config('config.json')
     app.run()
