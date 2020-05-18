@@ -5,30 +5,25 @@ import json
 
 class BaseModel:
 
-    def __init__(self, host: str, model_name: str = 'anonymous', version: int = 1):
-        logging.basicConfig()
-        self.logger = logging.getLogger(model_name)
-        self.logger.setLevel(logging.INFO)
-        self.host: str = host
-        self.model_name: str = model_name
-        self.version: int = version
+    def __init__(self):
+        self.__logger__ = logging.getLogger(self.__class__.__name__)
+        self.__logger__.setLevel(logging.INFO)
+        pass
 
-    def preprocess(self, raw_data: dict) -> dict:
+    def __preprocess__(self, raw_data: dict) -> dict:
         raise NotImplementedError
 
-    def after_prediction(self, predict_result: dict) -> dict:
+    def __after_prediction__(self, predict_result: dict) -> dict:
         raise NotImplementedError
 
-    def predict(self, raw_data: dict) -> dict:
-        self.logger.info('start inference, raw_data = {}'.format(raw_data))
+    def predict(self, host: str, model_name: str, raw_data: dict, version: int = 1) -> dict:
         http_response = requests.post(
-            '{}/v{}/models/{}:predict'.format(self.host, self.version, self.model_name),
-            json=self.preprocess(raw_data)
+            '{}/v{}/models/{}:predict'.format(host, version, model_name),
+            json=self.__preprocess__(raw_data)
         )
-        self.logger.info('http_response = {}'.format(http_response.content))
         try:
             json_response: dict = http_response.json()
-            return self.after_prediction(json_response)
+            return self.__after_prediction__(json_response)
         except json.decoder.JSONDecodeError:
             return {
                 'error': 'From pasteme_model_preprocess_service: json.decoder.JSONDecodeError',

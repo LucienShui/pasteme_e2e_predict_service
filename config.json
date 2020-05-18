@@ -1,0 +1,6 @@
+{
+  "PasteMeRIM": {
+    "host": "http://docker:8501",
+    "max_length": 128
+  }
+}
