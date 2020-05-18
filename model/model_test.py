@@ -1,5 +1,4 @@
 import unittest
-import requests
 from model.pasteme_rim import BidirectionalLSTM
 
 
