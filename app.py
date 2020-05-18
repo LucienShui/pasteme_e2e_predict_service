@@ -10,7 +10,6 @@ model_instances: typing.Dict[str, dict] = {}
 
 
 def load_config(config_path: str):
-    global model_instances
     with open(config_path) as json_config:
         config: dict = json.load(json_config)
 

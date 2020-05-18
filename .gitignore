@@ -134,3 +134,6 @@ dmypy.json
 # jetbrains
 .iml
 .idea
+
+# config
+config.json
