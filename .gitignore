@@ -135,5 +135,6 @@ dmypy.json
 .iml
 .idea
 
-# config
-config.json
+# json
+static/config.json
+static/word2idx.json

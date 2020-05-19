@@ -1,5 +1,6 @@
 import typing
 import json
+import resources
 from flask import Flask, request, jsonify, abort
 from model_loader import load_model
 from model.baseModel import BaseModel
@@ -10,7 +11,7 @@ model_instances: typing.Dict[str, dict] = {}
 
 
 def load_config(config_path: str):
-    with open(config_path) as json_config:
+    with resources.get(config_path) as json_config:
         config: dict = json.load(json_config)
 
         loaded_model: typing.Dict[str, BaseModel] = load_model(config)
@@ -31,8 +32,8 @@ def hello_world():
     return 'Hello World!'
 
 
-@app.route('/v<version>/models/<model_name>:predict', methods=['POST'])
-def predict(version: int, model_name: str):
+@app.route('/v1/models/<model_name>:predict', methods=['POST'])
+def predict(model_name: str):
     data: dict = json.loads(request.get_data().decode('utf-8'))
 
     if not data or 'content' not in data:
@@ -48,7 +49,7 @@ def predict(version: int, model_name: str):
 
     return jsonify(
         model.predict(
-            model_config['host'], model_name, {'content': content_list}, version
+            model_config['host'], model_name, {'content': content_list}
         )
     )
 

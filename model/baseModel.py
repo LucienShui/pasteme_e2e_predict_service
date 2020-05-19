@@ -16,14 +16,15 @@ class BaseModel:
     def __after_prediction__(self, predict_result: dict) -> dict:
         raise NotImplementedError
 
-    def predict(self, host: str, model_name: str, raw_data: dict, version: int = 1) -> dict:
+    def predict(self, host: str, model_name: str, raw_data: dict) -> dict:
         http_response = requests.post(
-            '{}/v{}/models/{}:predict'.format(host, version, model_name),
+            '{}/v1/models/{}:predict'.format(host, model_name),
             json=self.__preprocess__(raw_data)
         )
         try:
             json_response: dict = http_response.json()
             return self.__after_prediction__(json_response)
+
         except json.decoder.JSONDecodeError:
             return {
                 'error': 'From pasteme_model_preprocess_service: json.decoder.JSONDecodeError',
