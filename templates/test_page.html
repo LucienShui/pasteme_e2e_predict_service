@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Page</title>
+    <script src="https://cdn.staticfile.org/axios/0.19.0/axios.min.js"></script>
+    <style>
+        textarea {
+            resize: none;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <label>
+        <input id="model_name">
+    </label>
+</div>
+<div>
+    <label for="content"></label>
+    <textarea id="content"></textarea>
+</div>
+<div>
+    <button onclick="submit()">Submit</button>
+</div>
+</body>
+<script>
+    function submit() {
+        let model_name = document.getElementById("model_name").value;
+        let content = document.getElementById("content").value;
+
+        axios.post(`/v1/models/${model_name}:predict`, {
+            "content": content
+        }).then(response => {
+            let result = document.getElementById("content");
+            result.style.backgroundColor = response.data.predictions[0] === 0 ? "green" : "red";
+            result.style.color = "white";
+        })
+    }
+</script>
+</html>

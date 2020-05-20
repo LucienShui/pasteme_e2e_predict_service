@@ -1,7 +1,7 @@
 import typing
 import json
 import resources
-from flask import Flask, request, jsonify, abort
+from flask import Flask, request, jsonify, abort, render_template
 from model_loader import load_model
 from model.baseModel import BaseModel
 
@@ -27,9 +27,9 @@ def load_config(config_path: str):
 load_config('config.json')
 
 
-@app.route('/')
+@app.route('/testPage')
 def hello_world():
-    return 'Hello World!'
+    return render_template("test_page.html")
 
 
 @app.route('/v1/models/<model_name>:predict', methods=['POST'])
