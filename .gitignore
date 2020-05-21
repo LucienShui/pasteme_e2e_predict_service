@@ -136,5 +136,8 @@ dmypy.json
 .idea
 
 # json
-static/config.json
+#static/config.json
 static/word2idx.json
+
+# TensorFlow Model
+static/models/PasteMeRIM

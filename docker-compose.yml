@@ -1,0 +1,31 @@
+version: "3.7"
+services:
+
+  pasteme_e2e_predict_service:
+    build: ./
+    volumes:
+      - ./static:/app/static
+    networks:
+      - network-tensorflow-serving
+    depends_on:
+      - tensorflow_serving
+    ports:
+      - 5000:5000
+
+  tensorflow_serving:
+    image: tensorflow/serving:latest
+    command: "--model_config_file=/models/models.config --model_config_file_poll_wait_seconds=60"
+    networks:
+      - network-tensorflow-serving
+    volumes:
+      - ./static/models:/models
+#    environment:
+#      MODEL_NAME: "PasteMeRIM"
+#    ports:
+#      - 8501:8501
+
+#volumes:
+#  models:
+
+networks:
+  network-tensorflow-serving:

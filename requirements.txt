@@ -4,3 +4,5 @@ pandas~=1.0.3
 zhon~=1.1.5
 requests~=2.23.0
 numpy~=1.18.4
+gunicorn~=20.0.4
+gevent~=20.5.0

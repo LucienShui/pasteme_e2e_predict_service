@@ -1,0 +1,6 @@
+{
+  "PasteMeRIM": {
+    "host": "http://tensorflow_serving:8501",
+    "max_length": 256
+  }
+}
