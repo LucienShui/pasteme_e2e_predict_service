@@ -12,11 +12,6 @@
 </head>
 <body>
 <div>
-    <label>
-        <input id="model_name">
-    </label>
-</div>
-<div>
     <label for="content"></label>
     <textarea id="content"></textarea>
 </div>
@@ -26,7 +21,7 @@
 </body>
 <script>
     function submit() {
-        let model_name = document.getElementById("model_name").value;
+        let model_name = "PasteMeRIM";
         let content = document.getElementById("content").value;
 
         axios.post(`/v1/models/${model_name}:predict`, {
